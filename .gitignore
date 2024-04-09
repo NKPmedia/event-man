@@ -1,3 +1,7 @@
+#Add Jetbrains IDE files to .gitignore
+/.idea
+
+
 
 ###> symfony/framework-bundle ###
 /.env.local
