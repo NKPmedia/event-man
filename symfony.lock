@@ -1,4 +1,7 @@
 {
+    "boshurik/telegram-bot-bundle": {
+        "version": "2.1.0"
+    },
     "doctrine/doctrine-bundle": {
         "version": "2.12",
         "recipe": {

@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[ORM\UniqueConstraint(name: 'UNIQ_TELEGRAM_TAG', fields: ['telegram_tag'])]
+#[ORM\UniqueConstraint(name: 'UNIQ_TELEGRAM_ID', fields: ['telegram_id'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -24,7 +24,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column(length: 180)]
-    private ?string $telegram_tag = null;
+    private ?string $telegram_id = null;
 
     /**
      * @var list<string> The user roles
@@ -66,14 +66,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getTelegramTag(): ?string
+    public function getTelegramId(): ?string
     {
-        return $this->telegram_tag;
+        return $this->telegram_id;
     }
 
-    public function setTelegramTag(?string $telegram_tag): void
+    public function setTelegramId(?string $telegram_id): void
     {
-        $this->telegram_tag = $telegram_tag;
+        $this->telegram_id = $telegram_id;
     }
 
     /**
