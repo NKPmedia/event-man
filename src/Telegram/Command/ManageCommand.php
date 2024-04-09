@@ -48,6 +48,12 @@ class ManageCommand extends AbstractCommand implements PublicCommandInterface
 
     public function execute(BotApi $api, Update $update): void
     {
+        #Check if this chat is a group
+        if ($update->getMessage()->getChat()->getType() != 'group') {
+            $api->sendMessage($update->getMessage()->getChat()->getId(), 'This command only works in groups');
+            return;
+        }
+
         #Get all admins of the chat adn check if the bot is admin
         $admins = $api->getChatAdministrators($update->getMessage()->getChat()->getId());
         $admins = chatMembersToIds($admins);
