@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+
+{% block page_contents %}
+
+    Event Name: {{ event.name }}
+
+    <turbo-frame id="show_events">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">T Username</th>
+                <th scope="col">T First Name</th>
+                <th scope="col">T Last Name</th>
+                <th scope="col">Mail</th>
+                <th scope="col"> Actions </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for registration in registeredUsersAccepted %}
+                <tr {{ loop.last ? 'class="horizontal-divider"' : '' }}>
+                    <th scope="row">{{ registration.id }}</th>
+                    <td>{{ registration.telegramUsername }}</td>
+                    <td>{{ registration.telegramFirstName }}</td>
+                    <td>{{ registration.telegramLastName }}</td>
+                    <td>{{ registration.mail }}</td>
+                    <td>Accepted</td>
+                </tr>
+            {% endfor %}
+            {% for registration in registeredUsersPending %}
+                <tr {{ loop.last ? 'class="horizontal-divider"' : '' }}>
+                    <th scope="row">{{ registration.id }}</th>
+                    <td>{{ registration.telegramUsername }}</td>
+                    <td>{{ registration.telegramFirstName }}</td>
+                    <td>{{ registration.telegramLastName }}</td>
+                    <td>{{ registration.mail }}</td>
+                    <td>
+                        <a type="button" class="btn btn-success" href="{{ path('registration_accept', {'id': registration.id}) }}">Accept</a>
+                        <a type="button" class="btn btn-danger" href="{{ path('registration_reject', {'id': registration.id}) }}">Reject</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            {% for registration in registeredUsersRejected %}
+                <tr>
+                    <th scope="row">{{ registration.id }}</th>
+                    <td>{{ registration.telegramUsername }}</td>
+                    <td>{{ registration.telegramFirstName }}</td>
+                    <td>{{ registration.telegramLastName }}</td>
+                    <td>{{ registration.mail }}</td>
+                    <td>Rejected</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </turbo-frame>
+
+
+{% endblock %}

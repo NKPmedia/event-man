@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Event;
+use App\Entity\Registration;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,16 +29,34 @@ class EventsController extends AbstractController
     }
 
     #[Route('/events/{id}')]
-    public function show(int $id): Response
+    public function show(EntityManagerInterface $entityManager, int $id): Response
     {
-        $event = $this->getDoctrine()->getRepository(Event::class)->find($id);
-
+        $eventRepository = $entityManager->getRepository(Event::class);
+        $event = $eventRepository->findOneBy(['id' => $id]);
         if (!$event) {
             throw $this->createNotFoundException('Event not found');
         }
 
+        $registrationRepository = $entityManager->getRepository(Registration::class);
+
+        $registeredUsersPending = $registrationRepository->findBy([
+            'event' => $event,
+            'status' => Registration::STATUS_PENDING,
+        ]);
+        $registeredUsersAccepted = $registrationRepository->findBy([
+            'event' => $event,
+            'status' => Registration::STATUS_ACCEPTED,
+        ]);
+        $registeredUsersRejected = $registrationRepository->findBy([
+            'event' => $event,
+            'status' => Registration::STATUS_REJECTED,
+        ]);
+
         return $this->render('events/show.html.twig', [
             'event' => $event,
+            'registeredUsersPending' => $registeredUsersPending,
+            'registeredUsersAccepted' => $registeredUsersAccepted,
+            'registeredUsersRejected' => $registeredUsersRejected,
         ]);
     }
 }

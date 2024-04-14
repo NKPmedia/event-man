@@ -14,7 +14,7 @@
         {% for event in events %}
             <tr>
                 <th scope="row">{{ event.id }}</th>
-                <td>{{ event.name }}</td>
+                <td><a href="{{ path('app_events_show', {'id': event.id}) }}">{{ event.name }}</a></td>
             </tr>
         {% endfor %}
         </tbody>

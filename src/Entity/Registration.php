@@ -11,7 +11,7 @@ class Registration
 
     public const STATUS_PENDING = 1;
     public const STATUS_ACCEPTED = 2;
-    public const STATUS_DECLINED = 3;
+    public const STATUS_REJECTED = 3;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -33,6 +33,18 @@ class Registration
 
     #[ORM\Column]
     private ?int $rank = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $telegram_username = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $telegram_firstName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $telegram_lastName = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $telegram_chat_id = null;
 
 
     public function getId(): ?int
@@ -96,6 +108,54 @@ class Registration
     public function setRank(int $rank): static
     {
         $this->rank = $rank;
+
+        return $this;
+    }
+
+    public function getTelegramUsername(): ?string
+    {
+        return $this->telegram_username;
+    }
+
+    public function setTelegramUsername(?string $telegram_username): static
+    {
+        $this->telegram_username = $telegram_username;
+
+        return $this;
+    }
+
+    public function getTelegramFirstName(): ?string
+    {
+        return $this->telegram_firstName;
+    }
+
+    public function setTelegramFirstName(?string $telegram_firstName): static
+    {
+        $this->telegram_firstName = $telegram_firstName;
+
+        return $this;
+    }
+
+    public function getTelegramLastName(): ?string
+    {
+        return $this->telegram_lastName;
+    }
+
+    public function setTelegramLastName(?string $telegram_lastName): static
+    {
+        $this->telegram_lastName = $telegram_lastName;
+
+        return $this;
+    }
+
+    public function getTelegramChatId(): ?int
+    {
+        return $this->telegram_chat_id;
+    }
+
+    public function setTelegramChatId(?int $telegram_chat_id): static
+    {
+        $this->telegram_chat_id = $telegram_chat_id;
 
         return $this;
     }

@@ -88,6 +88,11 @@ class RegisterCommand extends AbstractCommand implements PublicCommandInterface
                 $registration->setStatus(Registration::STATUS_PENDING);
                 $registration->setTelegramId($update->getCallbackQuery()->getFrom()->getId());
                 $registration->setRank($maxRank + 1);
+                $registration->setTelegramUsername($update->getCallbackQuery()->getFrom()->getUsername());
+                $registration->setTelegramFirstName($update->getCallbackQuery()->getFrom()->getFirstName());
+                $registration->setTelegramLastName($update->getCallbackQuery()->getFrom()->getLastName());
+                $registration->setTelegramChatId($update->getCallbackQuery()->getMessage()->getChat()->getId());
+
 
                 $this->entityManager->persist($registration);
                 $this->entityManager->flush();
