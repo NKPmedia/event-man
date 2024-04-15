@@ -56,7 +56,9 @@ class ManageCommand extends AbstractCommand implements PublicCommandInterface
 
         #Get all admins of the chat adn check if the bot is admin
         $admins = $api->getChatAdministrators($update->getMessage()->getChat()->getId());
-        $admins = chatMembersToIds($admins);
+        $admins = array_map(function ($member) {
+            return $member->getUser()->getId();
+        }, $admins);
         $botId = $api->getMe()->getId();
         if (!in_array($botId, $admins)) {
             $api->sendMessage($update->getMessage()->getChat()->getId(), 'I am not admin');
