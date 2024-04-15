@@ -17,6 +17,10 @@ framework:
     #fragments: true
     php_errors:
         log: true
+        
+    trusted_proxies: '%env(TRUSTED_PROXIES)%'
+    trusted_hosts: '%env(TRUSTED_HOSTS)%'
+    trusted_headers: '%env(TRUSTED_HEADERS)%'
 
 when@test:
     framework:
