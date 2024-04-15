@@ -20,7 +20,7 @@ framework:
         
     trusted_proxies: '%env(TRUSTED_PROXIES)%'
     trusted_hosts: '%env(TRUSTED_HOSTS)%'
-    trusted_headers: '%env(TRUSTED_HEADERS)%'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port']
 
 when@test:
     framework:
