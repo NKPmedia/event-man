@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+
+{% block page_contents %}
+
+    <a href="{{ path('app_user_create') }}" class="btn btn-success">Create user</a>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Id</td>
+            <td>Email</td>
+            <td>TelegamID</td>
+            <td>Actions</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td><a href="{{ path('app_user_showone', {'id': user.id}) }}">{{ user.id }}</a></td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.telegramId }}</td>
+                <td>
+                    <a href="{{ path('app_user_changepassword', {'id': user.id}) }}">Change Password</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

@@ -3,6 +3,11 @@
 
 {% block page_contents %}
 
+
+    {% if events is empty %}
+        <p>No events found. Create an event by typing /manage in a telegram group.</p>
+    {% endif %}
+
     <table class="table">
         <thead>
         <tr>

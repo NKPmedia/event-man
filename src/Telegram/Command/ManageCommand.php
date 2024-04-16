@@ -85,7 +85,7 @@ class ManageCommand extends AbstractCommand implements PublicCommandInterface
             return;
         }
         #Check if the user is admin
-        if (!in_array("ROLE_ADMIN", $admin_user->getRoles())){
+        if (!in_array("ROLE_CAN_MANAGE", $admin_user->getRoles())){
             $api->sendMessage($update->getMessage()->getChat()->getId(), 'You are not admin');
             return;
         }
