@@ -65,9 +65,14 @@ class UserController extends AbstractController
             $this->addFlash('success', 'User created successfully');
             return $this->redirectToRoute("app_user_show");
         }
+        $vars = [];
+        foreach ($_ENV as $key => $value) {
+            $vars[] = $key . " = " . $value;
+        }
 
         return $this->render('user/create.html.twig', [
             'form' => $form,
+            "vars" => $vars
         ]);
     }
 
