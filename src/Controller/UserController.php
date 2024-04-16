@@ -35,32 +35,6 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/{id}')]
-    public function showOne(Request $request, int $id, EntityManagerInterface $entityManager): Response
-    {
-        $userRepo = $entityManager->getRepository(User::class);
-        $user = $userRepo->find($id);
-
-        $form = $this->createFormBuilder($user)
-            ->add('email', EmailType::class, ['disabled' => true])
-            ->add('telegramId', TextType::class)
-            ->add('save', SubmitType::class, ['label' => 'Update User'])
-            ->getForm();
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'User updated successfully');
-            return $this->redirectToRoute("app_user_showone", ['id' => $id]);
-        }
-
-        return $this->render('user/showOne.html.twig', [
-            'form' => $form,
-        ]);
-    }
-
     #[Route('/user/create')]
     public function create(Request $request,
                            UserPasswordHasherInterface $passwordHasher,
@@ -93,6 +67,32 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/create.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/user/{id}')]
+    public function showOne(Request $request, int $id, EntityManagerInterface $entityManager): Response
+    {
+        $userRepo = $entityManager->getRepository(User::class);
+        $user = $userRepo->find($id);
+
+        $form = $this->createFormBuilder($user)
+            ->add('email', EmailType::class, ['disabled' => true])
+            ->add('telegramId', TextType::class)
+            ->add('save', SubmitType::class, ['label' => 'Update User'])
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'User updated successfully');
+            return $this->redirectToRoute("app_user_showone", ['id' => $id]);
+        }
+
+        return $this->render('user/showOne.html.twig', [
             'form' => $form,
         ]);
     }
