@@ -14,6 +14,7 @@
                 <th scope="col">T First Name</th>
                 <th scope="col">T Last Name</th>
                 <th scope="col">Mail</th>
+                <th scope="col">Rank</th>
                 <th scope="col"> Actions </th>
             </tr>
             </thead>
@@ -25,6 +26,7 @@
                     <td>{{ registration.telegramFirstName }}</td>
                     <td>{{ registration.telegramLastName }}</td>
                     <td>{{ registration.mail }}</td>
+                    <td>{{ registration.rank }}</td>
                     <td>Accepted</td>
                 </tr>
             {% endfor %}
@@ -35,6 +37,7 @@
                     <td>{{ registration.telegramFirstName }}</td>
                     <td>{{ registration.telegramLastName }}</td>
                     <td>{{ registration.mail }}</td>
+                    <td>{{ registration.rank }}</td>
                     <td>
                         <a type="button" class="btn btn-success" href="{{ path('registration_accept', {'id': registration.id}) }}">Accept</a>
                         <a type="button" class="btn btn-danger" href="{{ path('registration_reject', {'id': registration.id}) }}">Reject</a>
@@ -48,6 +51,7 @@
                     <td>{{ registration.telegramFirstName }}</td>
                     <td>{{ registration.telegramLastName }}</td>
                     <td>{{ registration.mail }}</td>
+                    <td>{{ registration.rank }}</td>
                     <td>Rejected</td>
                 </tr>
             {% endfor %}

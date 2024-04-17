@@ -42,15 +42,15 @@ class EventsController extends AbstractController
         $registeredUsersPending = $registrationRepository->findBy([
             'event' => $event,
             'status' => Registration::STATUS_PENDING,
-        ]);
+        ], ['rank'=>'ASC']);
         $registeredUsersAccepted = $registrationRepository->findBy([
             'event' => $event,
             'status' => Registration::STATUS_ACCEPTED,
-        ]);
+        ], ['rank'=>'ASC']);
         $registeredUsersRejected = $registrationRepository->findBy([
             'event' => $event,
             'status' => Registration::STATUS_REJECTED,
-        ]);
+        ], ['rank'=>'ASC']);
 
         return $this->render('events/show.html.twig', [
             'event' => $event,
