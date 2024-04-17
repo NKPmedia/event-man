@@ -61,13 +61,13 @@ class ManageCommand extends AbstractCommand implements PublicCommandInterface
         }, $admins);
         $botId = $api->getMe()->getId();
         if (!in_array($botId, $admins)) {
-            $api->sendMessage($update->getMessage()->getChat()->getId(), 'I am not admin');
+            $api->sendMessage($update->getMessage()->getChat()->getId(), 'I am not an admin of this group');
             return;
         }
         #Check if the user that send the command is admin
         $userId = $update->getMessage()->getFrom()->getId();
         if (!in_array($userId, $admins)) {
-            $api->sendMessage($update->getMessage()->getChat()->getId(), 'You are not admin');
+            $api->sendMessage($update->getMessage()->getChat()->getId(), 'You are not an admin fo this group');
             return;
         }
 
@@ -86,7 +86,7 @@ class ManageCommand extends AbstractCommand implements PublicCommandInterface
         }
         #Check if the user is admin
         if (!in_array("ROLE_CAN_MANAGE", $admin_user->getRoles())){
-            $api->sendMessage($update->getMessage()->getChat()->getId(), 'You are not admin');
+            $api->sendMessage($update->getMessage()->getChat()->getId(), 'You dont have the permission to manage groups');
             return;
         }
 
