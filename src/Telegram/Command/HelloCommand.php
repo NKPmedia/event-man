@@ -20,20 +20,21 @@ class HelloCommand extends AbstractCommand implements PublicCommandInterface
 {
     public function getName(): string
     {
-        return '/hello';
+        return '/start';
     }
 
     public function getDescription(): string
     {
-        return 'Example command';
+        return 'Start command';
     }
 
     public function execute(BotApi $api, Update $update): void
     {
-        preg_match(self::REGEXP, $update->getMessage()->getText(), $matches);
-        $who = !empty($matches[3]) ? $matches[3] : 'World';
-
-        $text = sprintf('Hello *%s*', $who);
-        $api->sendMessage($update->getMessage()->getChat()->getId(), $text, 'markdown');
+        $text = "Hallo, {$update->getMessage()->getFrom()->getFirstName()} \n";
+        $text .= "Dies ist ein Bot um sich bei Events anzumelden. \n";
+        $text .= "Verwende /list um alle Events zu sehen. \n";
+        $text .= "Verwende /register um dich für ein Event anzumelden. \n";
+        $text .= "Du wirst benachrichtigt, wenn du für ein Event angenommen oder abgelehnt wurdest. \n";
+        $api->sendMessage($update->getMessage()->getChat()->getId(), $text, );
     }
 }
