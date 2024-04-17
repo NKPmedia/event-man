@@ -57,10 +57,13 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 	setfacl -dR -m u:www-data:rwX -m u:"$(whoami)":rwX var
 fi
 
-
-composer dump-autoload --classmap-authoritative --no-dev
-composer run-script --no-dev post-install-cmd
-php bin/console importmap:install --env=prod
-php bin/console asset-map:compile
+# if env is prod
+if [ "$APP_ENV" = 'prod' ]; then
+	echo "Environment is prod, optimizing..."
+	composer dump-autoload --classmap-authoritative --no-dev
+    composer run-script --no-dev post-install-cmd
+    php bin/console importmap:install --env=prod
+    php bin/console asset-map:compile
+fi
 
 exec docker-php-entrypoint "$@"
