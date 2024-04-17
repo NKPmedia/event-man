@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class UserController extends AbstractController
 {
@@ -47,6 +48,12 @@ class UserController extends AbstractController
             ->add('email', EmailType::class)
             ->add('password', PasswordType::class)
             ->add('telegramId', TextType::class)
+            ->add('roles', ChoiceType::class, [
+                'choices'  => [
+                    'User' => 'ROLE_USER',
+                    'Can manage' => 'ROLE_CAN_MANAGE',
+                ],
+            "multiple" => true])
             ->add('save', SubmitType::class, ['label' => 'Create User'])
             ->getForm();
 
@@ -77,14 +84,30 @@ class UserController extends AbstractController
         $userRepo = $entityManager->getRepository(User::class);
         $user = $userRepo->find($id);
 
+        $old_roles = $user->getRoles();
+
         $form = $this->createFormBuilder($user)
             ->add('email', EmailType::class, ['disabled' => true])
-            ->add('telegramId', TextType::class)
-            ->add('save', SubmitType::class, ['label' => 'Update User'])
+            ->add('telegramId', TextType::class);
+
+            if ($this->isGranted("ROLE_ADMIN")) {
+                $form = $form->add('roles', ChoiceType::class, [
+                    'choices'  => [
+                        "Admin" => "ROLE_ADMIN",
+                        'User' => 'ROLE_USER',
+                        'Can manage' => 'ROLE_CAN_MANAGE',
+                    ],
+                "multiple" => true]);
+            }
+            $form = $form->add('save', SubmitType::class, ['label' => 'Update User'])
             ->getForm();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            # Check if roles are changed
+            if ($old_roles !== $user->getRoles()) {
+                $this->denyAccessUnlessGranted("ROLE_ADMIN");
+            }
             $entityManager->persist($user);
             $entityManager->flush();
 
